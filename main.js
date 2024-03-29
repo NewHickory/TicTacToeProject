@@ -21,6 +21,7 @@ let board = [
 // assigns the first mark as 'X'
 // using let because the variable is expected to change from 'X' to 'O' and back
 let playerTurn = 'X';
+let marks = 0;
 
 // is a function that print the current status of the board using the variable - board
 const printBoard = () => {
@@ -33,24 +34,89 @@ const printBoard = () => {
 }
 
 const horizontalWin = () => {
-  // Your code here to check for horizontal wins
+  if (board[0][0] == board[1][0] == board[2][0]) {
+    return true;
+  }
+  else if (board[0][1] == board[1][1] == board[2][1]) {
+    return true;
+  }
+  else if (board[0][2] == board[1][2] == board[2][2]) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 const verticalWin = () => {
-  // Your code here to check for vertical wins
+  if (board[0][0] == board[0][1] == board[0][2]) {
+    return true;
+  }
+  else if (board[1][0] == board[1][1] == board[1][2]) {
+    return true;
+  }
+  else if (board[2][0] == board[2][1] == board[2][2]) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 const diagonalWin = () => {
-  // Your code here to check for diagonal wins
+  if (board[0][0] == board[1][0] == board[2][0]) {
+    return true;
+  }
+  else if (board[0][1] == board[1][1] == board[2][1]) {
+    return true;
+  }
+  else if (board[0][2] == board[1][2] == board[2][2]) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 const checkForWin = () => {
-  // Your code here call each of the check for types of wins
+  if (horizontalWin() || verticalWin() || diagonalWin()) {
+    console.log('Player ', playerTurn, 'wins!!!')
+    return true;
+  }
+  else {
+    return false
+  }
 }
 
 const ticTacToe = (row, column) => {
   // Your code here to place a marker on the board
+  if (board[row][column] == ' ') {
+    
+    board[row][column] = playerTurn;
+    
+    if (marks < 4) {
+      marks += 1;
+    }
+    else {
+      checkForWin()
+    }
+    
+    if (playerTurn == 'X') {
+      playerTurn = 'O'
+    }
+    else if (playerTurn == 'O') {
+      playerTurn = 'X'
+    }
+  }
+  else {
+    console.log('Spot already taken.  Try again.')
+  }
+
   // then check for a win
+
+  
+  console.log('Marks: ', marks)
+
 }
 
 const getPrompt = () => {
@@ -58,7 +124,17 @@ const getPrompt = () => {
   console.log("It's Player " + playerTurn + "'s turn.");
   rl.question('row: ', (row) => {
     rl.question('column: ', (column) => {
-      ticTacToe(row, column);
+      if (row <= 2 && row >= 0) {
+        if (column <= 2 && column >= 0) {
+          ticTacToe(row, column);
+        }
+        else {
+          console.log("Enter a number between 0 and 2.")
+        }
+      }
+      else {
+        console.log("Enter a number between 0 and 2.")
+      };
       getPrompt();
     });
   });
